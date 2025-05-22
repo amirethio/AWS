@@ -198,7 +198,7 @@ sudo npm install -g serve
 
 ### 🚀 Serve the build folder on port 3000:
 ```bash
-pm2 start "serve -s backend-folder -l 3000" --name frontend-app
+pm2 start "serve -s /dist -l 3000" --name frontend-app    // (change dist if your build folder isn't dist)
 ```
 
 ---
