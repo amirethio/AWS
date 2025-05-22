@@ -80,17 +80,4 @@ pm2 startup
 
 ---
 
-sudo apt install git curl nodejs npm nginx -y
 
-cd frontend 
-3️⃣ Build the React App
-bash
-Copy code
-sudo npm install
-sudo npm run build
-
-Move Build to Web Root
-bash
-Copy code
-sudo cp -r build/* /var/www/html/
-/var/www/html/ is the default root directory for NGINX on Ubuntu
