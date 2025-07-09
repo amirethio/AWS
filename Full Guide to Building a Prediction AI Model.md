@@ -22,11 +22,11 @@ Machine Learning is a subfield of Artificial Intelligence (AI) that involves usi
 
 To train a machine learning model, we need:
 
-- ✅ **Data** — like patient medical records  
-- ✅ **A goal** — like predicting diabetes  
-- ✅ **A model/algorithm** — built using mathematical functions, applied to your data (e.g., Logistic Regression, XGBoost)  
-- ✅ **Evaluation metrics** — to check model performance (accuracy, precision, recall, etc.)  
-- ✅ **Infrastructure** — to train, evaluate, and deploy the model (locally or on the cloud)
+-  **Data** — like patient medical records  
+-  **A goal** — like predicting diabetes  
+-  **A model/algorithm** — built using mathematical functions, applied to your data (e.g., Logistic Regression, XGBoost)  
+-  **Evaluation metrics** — to check model performance (accuracy, precision, recall, etc.)  
+-  **Infrastructure** — to train, evaluate, and deploy the model (locally or on the cloud)
 
 ---
 
@@ -93,7 +93,7 @@ Let’s go through the necessary steps to fetch and load the dataset.
 
 ---
 
-### ✅ 1.1: Import Required Libraries
+###  1.1: Import Required Libraries
 
 We import the essential Python libraries we'll use:
 
@@ -104,7 +104,7 @@ import pandas as pd   # For reading and manipulating tabular data
 
 ---
 
-### ✅ 1.2: Define S3 File Info
+###  1.2: Define S3 File Info
 
 Specify the S3 bucket name and the dataset file:
 
@@ -116,7 +116,7 @@ local_file = 'dataset.csv'          # Name to save locally
 
 ---
 
-### ✅ 1.3: Download the File from S3
+###  1.3: Download the File from S3
 
 We use `boto3` to download the file from your bucket:
 
@@ -127,7 +127,7 @@ s3.download_file(bucket_name, file_key, local_file)  # Download the CSV
 
 ---
 
-### ✅ 1.4: Load and Preview the Dataset
+###  1.4: Load and Preview the Dataset
 
 We load the CSV file with `pandas`, rename the columns to meaningful names, and view the first few rows:
 
@@ -146,7 +146,7 @@ Now that we've loaded the dataset, we begin **data exploration and preprocessing
 
 ---
 
-### ✅ 2.1: Summary Statistics
+###  2.1: Summary Statistics
 
 Use `.describe()` to understand basic statistics like min, max, mean, and percentiles.
 
@@ -160,7 +160,7 @@ This helps you:
 
 ---
 
-### ✅ 2.2: Check for Invalid or Missing Values
+###  2.2: Check for Invalid or Missing Values
 
 Some features (like `Glucose`, `BMI`, `Insulin`) should never be zero. While they are not technically "missing" (`NaN`), zero is an **invalid** value in these medical contexts.
 
@@ -176,7 +176,7 @@ for col in invalid_zero_cols:
 
 ---
 
-### ✅ 2.3: Options to Handle Invalid Zeros
+###  2.3: Options to Handle Invalid Zeros
 
 You have different choices to deal with invalid zero entries:
 
@@ -194,7 +194,7 @@ for col in invalid_zero_cols:
 
 ---
 
-### ✅ 2.4: Verify After Cleaning
+###  2.4: Verify After Cleaning
 
 Use `.describe()` again to confirm that the invalid zeros are gone:
 
@@ -206,7 +206,7 @@ You should see updated min values for each cleaned column.
 
 ---
 
-### ✅ 2.5: Plot Feature Distributions
+###  2.5: Plot Feature Distributions
 
 Visualize all columns to understand the shape of their distributions:
 
@@ -249,7 +249,7 @@ For now, we’ll just observe the distribution and continue.
 
 ---
 
-### ✅ 2.6: Move Target Column to the Front (for SageMaker XGBoost)
+###  2.6: Move Target Column to the Front (for SageMaker XGBoost)
 
 SageMaker’s built-in XGBoost requires the **label (Outcome)** column to be the **first column**.
 
@@ -283,7 +283,7 @@ This helps prevent **overfitting**, where the model memorizes the training data 
 
 ---
 
-### ✅ 3.1: Import and Split the Dataset
+###  3.1: Import and Split the Dataset
 
 We’ll use `train_test_split` from `scikit-learn` and stratify by `Outcome` to keep the class ratio balanced.
 
@@ -300,7 +300,7 @@ train_df, val_df = train_test_split(
 
 ---
 
-### ✅ 3.2: Save the Datasets as CSV (Without Header or Index)
+###  3.2: Save the Datasets as CSV (Without Header or Index)
 
 SageMaker's XGBoost algorithm expects **raw CSV files** — no headers, no indexes.
 
@@ -331,7 +331,7 @@ S3 is a **highly scalable**, **durable** cloud storage. SageMaker needs your dat
 
 ---
 
-### ✅ 4.1: Upload Files to S3
+###  4.1: Upload Files to S3
 
 We’ll use `boto3.resource('s3')` to upload both files.
 
@@ -374,7 +374,7 @@ XGBoost (Extreme Gradient Boosting) is an optimized gradient boosting algorithm:
 
 ---
 
-### ✅ 5.1: Define the XGBoost Estimator
+###  5.1: Define the XGBoost Estimator
 
 To train a model in SageMaker, you create an **Estimator**, which describes:
 - Which algorithm/container to use
@@ -418,7 +418,7 @@ estimator = Estimator(
 
 ---
 
-### ✅ 5.2: Set Hyperparameters
+###  5.2: Set Hyperparameters
 
 Hyperparameters are settings that control the **learning behavior** of the model.
 
@@ -441,7 +441,7 @@ estimator.set_hyperparameters(
 
 ---
 
-### ✅ 5.3: Point to Training and Validation Data
+###  5.3: Point to Training and Validation Data
 
 SageMaker needs to know **where your data lives in S3**.
 
@@ -461,7 +461,7 @@ val_input = TrainingInput(
 
 ---
 
-### ✅ 5.4: Launch the Training Job
+###  5.4: Launch the Training Job
 
 Now we call `.fit()` to start the job.
 
